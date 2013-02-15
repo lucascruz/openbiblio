@@ -1,29 +1,23 @@
 package br.com.openbiblio.soft;
 public class Usuario {
 
-	protected String nome;
-
-	protected String endereco;
-
-	protected String tipoUsuario;
-
-	protected String telefone;
-
-	protected int id;
-
-	protected int contador;
-
-	private String matricula;
-
+	private String nome, endereco, tipoUsuario;
+	private int id,contador;
+	String telefone;
+	String matricula;
 
 
 	public Usuario(String nome, String telefone, String endereco, String tipo,
-			String matricula) {
+		String matricula2) {
 		this.setNome(nome);
 		this.setTipoUsuario(tipo);
 		this.setTelefone(telefone);
-		this.setMatricula(matricula);
+		this.setMatricula(matricula2);
 		this.setEndereco(endereco);
+	}
+
+	public Usuario() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getTipoUsuario() {

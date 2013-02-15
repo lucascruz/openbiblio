@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -32,15 +33,16 @@ public class PersistenciaArquivo implements Persistencia {
 	private File livroFile;
 
 	public PersistenciaArquivo() {
-		usuarioFile = new File(dataDir.getPath() + "/usuarios.ser");
-		livroFile = new File(dataDir.getPath() + "/livros.ser");
+		this.usuarioFile = new File(dataDir.getPath() + "/usuarios.dat");
+		this.livroFile = new File(dataDir.getPath() + "/livros.dat");
 	}
 
 	@Override
 	public void salvar(Usuario user) throws PersistenciaException {
 		StringBuilder line = new StringBuilder();
 		line.append(user.getNome() + "*" + user.getTelefone() + "*"
-				+ user.getTipoUsuario() + "*" + user.getMatricula() + "\n");
+				+ user.getEndereco() + "*" + user.getTipoUsuario() + "*"
+				+ user.getMatricula() + "\n");
 
 		try {
 			FileWriter out = new FileWriter(usuarioFile, true);
@@ -66,37 +68,33 @@ public class PersistenciaArquivo implements Persistencia {
 		}
 	}
 
-	@Override
-	@SuppressWarnings({ "resource", "null" })
+	@SuppressWarnings("resource")
 	public List<Usuario> recuperarUsuarios() throws PersistenciaException {
-		List<Usuario> usuarios = new ArrayList<Usuario>();
+		List<Usuario> usuarios = new LinkedList<Usuario>();
 		if (!usuarioFile.exists())
 			return usuarios;
-
-		FileInputStream in;
+		System.out.println(usuarioFile.getAbsolutePath());
 		int nlinha = 0;
 		try {
-			in = new FileInputStream(usuarioFile);
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(in));
-
-			String linha;
-			while ((linha = reader.readLine()) != null) {
-				nlinha++;
-				StringTokenizer tokens = new StringTokenizer(linha, "*");
-				if (tokens.countTokens() != 5)
-					throw new PersistenciaException(
-							"Erro no formato do arquivo!\n Arquivo: "
-									+ usuarioFile.toString() + "\n Linha: "
-									+ nlinha);
-				Usuario user = null;
-				user.setNome(tokens.nextToken());
-				user.setTelefone(tokens.nextToken());
-				user.setTipoUsuario(tokens.nextToken());
-				user.setMatricula(tokens.nextToken());
-
-				usuarios.add(user);
+			// Decorator na leitura
+			FileInputStream in = new FileInputStream(usuarioFile);
+			InputStreamReader is = new InputStreamReader(in);
+			BufferedReader reader = new BufferedReader(is);
+			String linha = reader.readLine();
+			
+			nlinha++;
+			
+			StringTokenizer tokens = new StringTokenizer(linha, "*");
+			if (tokens.countTokens() != 5) {
+				throw new PersistenciaException("Erro no formato do arquivo!\n Arquivo: "+ usuarioFile.toString() + "\n Linha: "+ nlinha);
 			}
+			Usuario user = new Usuario();
+			user.setNome(tokens.nextToken());
+			user.setTelefone(tokens.nextToken());
+			user.setTipoUsuario(tokens.nextToken());
+			user.setMatricula(tokens.nextToken());
+			user.setEndereco(tokens.nextToken());
+			usuarios.add(user);
 			reader.close();
 		} catch (Exception e) {
 			throw new PersistenciaException("Erro ao ler o arquivo "
@@ -106,21 +104,18 @@ public class PersistenciaArquivo implements Persistencia {
 	}
 
 	@Override
-	@SuppressWarnings({ "null", "resource" })
 	public List<Livro> recuperarLivros() throws PersistenciaException {
 		List<Livro> livros = new ArrayList<Livro>();
 		if (!livroFile.exists())
 			return livros;
-
-		FileInputStream in;
 		int nlinha = 0;
 		try {
-			in = new FileInputStream(livroFile);
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(in));
-
-			String linha;
-			while ((linha = reader.readLine()) != null) {
+			// Decorator area
+			FileInputStream in2 = new FileInputStream(livroFile);
+			InputStreamReader is2 = new InputStreamReader(in2);
+			BufferedReader reader2 = new BufferedReader(is2);
+			String linha = reader2.readLine();
+			while ((linha = reader2.readLine()) != null) {
 				nlinha++;
 				StringTokenizer tokens = new StringTokenizer(linha, "*");
 				if (tokens.countTokens() != 4)
@@ -128,15 +123,14 @@ public class PersistenciaArquivo implements Persistencia {
 							"Erro no formato do arquivo!\n Arquivo: "
 									+ livroFile.toString() + "\n Linha: "
 									+ nlinha);
-				Livro livro = null;
+				Livro livro = new Livro();
 				livro.setEdicao(tokens.nextToken());
 				livro.setTitulo(tokens.nextToken());
 				livro.setTipo(tokens.nextToken());
 				livro.setAutor(tokens.nextToken());
-
 				livros.add(livro);
 			}
-			reader.close();
+			reader2.close();
 		} catch (Exception e) {
 			throw new PersistenciaException("Erro ao ler o arquivo "
 					+ livroFile.toString() + ", na linha:" + nlinha, e);

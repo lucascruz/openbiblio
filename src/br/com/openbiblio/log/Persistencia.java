@@ -11,7 +11,7 @@ public interface Persistencia {
 	public void salvar(Usuario u) throws PersistenciaException;
 
 	public void salvar(Livro l) throws PersistenciaException;
-
+	
 	public List<Usuario> recuperarUsuarios() throws PersistenciaException;
 
 	public List<Livro> recuperarLivros() throws PersistenciaException;

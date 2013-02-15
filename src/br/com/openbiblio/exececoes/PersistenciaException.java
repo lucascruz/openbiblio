@@ -1,5 +1,6 @@
 package br.com.openbiblio.exececoes;
 
+@SuppressWarnings("serial")
 public class PersistenciaException extends Exception {
 
 		public PersistenciaException() {

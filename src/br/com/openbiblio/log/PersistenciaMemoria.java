@@ -1,6 +1,7 @@
 package br.com.openbiblio.log;
 
-	import java.util.ArrayList;
+
+import java.util.LinkedList;
 import java.util.List;
 
 import br.com.openbiblio.soft.Livro;
@@ -11,26 +12,25 @@ import br.com.openbiblio.soft.Usuario;
 		private List<Livro> livros;
 
 		public PersistenciaMemoria(){
-			usuarios = new ArrayList<Usuario>();
-			livros = new ArrayList<Livro>();
+			usuarios = new LinkedList<Usuario>();
+			livros = new LinkedList<Livro>();
 		}
-
-		@Override
+		 
 		public void salvar(Usuario usuario) {
 			this.usuarios.add(usuario);
 		}
 
-		@Override
+		 
 		public List<Usuario> recuperarUsuarios() {
 			return usuarios;
 		}
 
-		@Override
+		 
 		public void salvar(Livro livro) {
 			this.livros.add(livro);
 		}
 
-		@Override
+		 
 		public List<Livro> recuperarLivros() {
 			return livros;
 		}

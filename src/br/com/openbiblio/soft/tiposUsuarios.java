@@ -1,6 +1,6 @@
 package br.com.openbiblio.soft;
 
-public enum tiposUsuarios {
+public enum TiposUsuarios {
 	Aluno, Funcionario, Professor;
 
 }

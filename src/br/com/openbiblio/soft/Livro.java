@@ -9,6 +9,10 @@ public class Livro {
 		this.tipo = tipo;
 		this.autor = autor;
 	}
+	
+	public Livro() {
+
+	}
 
 	public String getTitulo() {
 		return titulo;
