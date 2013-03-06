@@ -56,8 +56,8 @@ public class PersistenciaArquivo implements Persistencia {
 	@Override
 	public void salvar(Livro livro) throws PersistenciaException {
 		StringBuilder line = new StringBuilder();
-		line.append(livro.getEdicao() + "*" + livro.getTitulo() + "*"
-				+ livro.getTipo() + "*" + livro.getAutor() + "\n");
+		line.append(livro.getAutor() + "*" + livro.getIsbn() + "*"
+				+ livro.getTitulo() + "*" + livro.getEditora() + "*" + livro.getCategoria() + "\n");
 
 		try {
 			FileWriter out = new FileWriter(livroFile, true);
@@ -124,9 +124,9 @@ public class PersistenciaArquivo implements Persistencia {
 									+ livroFile.toString() + "\n Linha: "
 									+ nlinha);
 				Livro livro = new Livro();
-				livro.setEdicao(tokens.nextToken());
+			//	livro.setEdicao(tokens.nextToken());
 				livro.setTitulo(tokens.nextToken());
-				livro.setTipo(tokens.nextToken());
+			//	livro.setTipo(tokens.nextToken());
 				livro.setAutor(tokens.nextToken());
 				livros.add(livro);
 			}

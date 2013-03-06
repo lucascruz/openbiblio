@@ -48,9 +48,10 @@ public class OpenBiblioFacade {
 	public Livro criarLivro(String edicao, String titulo, String tipo,
 			String autor) throws PersistenciaException, OpenBiblioException {
 
-		Livro l = new Livro(edicao, titulo, tipo, autor);
-		persistencia.salvar(l);
-		return l;
+		//Livro l = new Livro(edicao, titulo, tipo, autor);
+		//persistencia.salvar(l);
+		//return l;
+		return null;
 	}
 
 	public List<Livro> listarLivros() throws PersistenciaException {
